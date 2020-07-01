@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bdqn.dao.UserDao">
+
+    <!-- 验证用户名是否正确 -->
+    <select id="loginUser" resultType="user">
+		SELECT * FROM `user`
+		WHERE username = #{username} AND password = #{password}
+	</select>
+
+    <!-- 查询用户表记录数 -->
+    <select id="count" resultType="int">
+        select count(1) as count
+        from user
+    </select>
+
+    <!-- 查询所有用户 -->
+    <select id="findAll" resultType="user">
+        select * from user
+    </select>
+
+    <!-- 模糊查询用户 -->
+    <select id="findAllByname" resultType="user">
+        SELECT * FROM USER
+        WHERE username LIKE CONCAT('%',#{username},'%')
+    </select>
+
+    <!-- 添加用户 -->
+    <insert id="add" parameterType="user">
+        INSERT INTO `user` (  `username`,`password`,`phone`,`email`,`create_time`,
+        `update_time`,`source_type`,`nick_name`,`name`,`status`,`head_pic`,`qq`,
+        `account_balance`,`is_mobile_check`,`is_email_check`,`sex`,`user_level`,
+        `points`,`experience_value`,`birthday`,`last_login_time`,`address`)
+        VALUES (#{username}, #{password}, #{phone}, #{email}, #{create_time}, #{update_time}, #{source_type},
+                #{nick_name}, #{name}, #{status}, #{head_pic}, #{qq}, #{account_balance}, #{is_mobile_check}, #{is_email_check}, #{sex},
+                 #{user_level}, #{points},#{experience_value}, #{birthday}, #{last_login_time},#{address})
+    </insert>
+
+    <select id="getById" parameterType="int" resultType="user">
+        select *
+        from user
+        where id = #{id}
+    </select>
+
+    <update id="updateUser" parameterType="user">
+        UPDATE
+        `user`
+        <set>
+            <if test="username != null and username !=''"> `username` = #{username},</if>
+            <if test="password != null and password !=''"> `password` = #{password},</if>
+            <if test="phone != null and phone !=''"> `phone` = #{phone},</if>
+            <if test="email != null and email !=''"> `email` = #{email},</if>
+            <if test="create_time != null "> `create_time` = #{create_time},</if>
+            <if test="update_time != null "> `update_time` = #{update_time},</if>
+            <if test="source_type != null and source_type !=''"> `source_type` = #{source_type},</if>
+            <if test="nick_name != null and nick_name !=''"> `nick_name` = #{nick_name},</if>
+            <if test="name != null and name !=''"> `name` = #{name},</if>
+            <if test="status != null and status !=''"> `status` = #{status},</if>
+            <if test="head_pic != null and head_pic !=''"> `head_pic` = #{head_pic},</if>
+            <if test="qq != null and qq !=''"> `qq` = #{qq},</if>
+            <if test="account_balance != null "> `account_balance` = #{account_balance},</if>
+            <if test="is_mobile_check != null and is_mobile_check !=''"> `is_mobile_check` = #{is_mobile_check},</if>
+            <if test="is_email_check != null and is_email_check !=''"> `is_email_check` = #{is_email_check},</if>
+            <if test="sex != null "> `sex` = #{sex},</if>
+            <if test="user_level != null "> `user_level` = #{user_level},</if>
+            <if test="points != null "> `points` = #{points},</if>
+            <if test="experience_value != null "> `experience_value` = #{experience_value},</if>
+            <if test="birthday != null "> `birthday` = #{birthday},</if>
+            <if test="last_login_time != null "> `last_login_time` = #{last_login_time}</if>
+            <if test="address != null  and address !=''"> `address` = #{address}</if>
+        </set>
+        WHERE `id` = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from user where id=#{id}
+    </delete>
+</mapper>
